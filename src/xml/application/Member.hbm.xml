@@ -1,0 +1,14 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE hibernate-mapping PUBLIC "-//Hibernate/Hibernate Mapping DTD 2.0//EN" "http://hibernate.sourceforge.net/hibernate-mapping-2.0.dtd">
+<hibernate-mapping>
+ 	<class name="application.MemberBean" table="member">
+ 	 	<id column="ID" name="id" type="java.lang.Long">
+ 	 	 	<generator class="sequence"/>
+ 	 	</id>
+		<property column="FIRST_NAME" length="255" name="firstName" type="java.lang.String"/>
+		<property column="LAST_NAME" length="255" name="lastName" type="java.lang.String"/>
+		<property column="HANDLE" length="255" name="handle" not-null="true" type="java.lang.String"/>
+		<property column="EMAIL" length="255" name="email" not-null="true" type="java.lang.String"/>
+
+ 	</class>
+</hibernate-mapping>
