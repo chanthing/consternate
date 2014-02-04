@@ -11,12 +11,12 @@ import org.springframework.web.bind.annotation.ResponseBody;
 @Controller
 public class MemberController {
 
+	private Repository<MemberBean> memberRepo = new Repository<MemberBean>("org.chanthing.application.MemberBean", "MEMBER");
+
     @RequestMapping(method=RequestMethod.GET, value="/member")
     @ResponseBody
     public MemberBean member(@RequestParam(value="id") Long id) {
-	MemberBean theMember = new MemberBean();
-
-	return theMember;
+		return memberRepo.getItem(id);
     }
 	
 }
