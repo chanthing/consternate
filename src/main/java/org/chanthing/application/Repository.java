@@ -5,6 +5,8 @@ import java.util.Iterator;
 import org.hibernate.annotations.Entity;
 import org.hibernate.SessionFactory;
 import org.hibernate.Session;
+import org.hibernate.Transaction;
+import org.hibernate.HibernateException;
 
 import org.chanthing.util.HibernateUtil;
 
@@ -20,21 +22,61 @@ public class Repository<T> {
 		this.tableName = tableName;
 	}
 
-	public Repository<T> getAll() {
+	public List<T> getAllItems() {
 		Session session = HibernateUtil.getSessionFactory().openSession();
-		Iterator allIds = session.createSQLQuery("SELECT ID FROM " + this.tableName).iterate();
-		return this; 
+		return (List<T>)session.createSQLQuery("SELECT * FROM " + this.tableName).list();
 	}
 
-	public T getItem(long id) {
+	public T getItemById(Long id) {
+		T item = null;
 		Session session = HibernateUtil.getSessionFactory().openSession();
 
 		try {
-			return (T)session.get(entityName, id);
-	    } finally {
-			if (session != null && session.isOpen()) {
-				session.close();
+			item = (T)session.get(entityName, id);
+	    } catch (RuntimeException re) {
+			re.printStackTrace();
+		} finally {
+			session.close();
+		}
+		return item;
+	}
+
+	public Long addItem(T item) {
+		Transaction trans = null;
+		Long id = null;
+		Session session = HibernateUtil.getSessionFactory().openSession();
+		try {
+			trans = session.beginTransaction();
+			id = (Long)session.save(item);
+			trans.commit();
+		} catch (HibernateException he) {
+			if (trans != null) {
+				trans.rollback();
 			}
+			he.printStackTrace();
+			return null;
+		} finally {
+			session.close();
+		}
+		return id;
+	}
+
+	public void deleteItemById(Long id) {
+		Transaction trans = null;
+		Session session = HibernateUtil.getSessionFactory().openSession();
+		try {
+			T item;
+			trans = session.beginTransaction();
+			item = (T) session.get(entityName, id);
+			session.delete(item);
+			trans.commit();
+		} catch (HibernateException he) {
+			if (trans != null) {
+				trans.rollback();
+			}
+			he.printStackTrace();
+		} finally {
+			session.close();
 		}
 	}
 		

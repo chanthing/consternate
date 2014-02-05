@@ -13,7 +13,7 @@ import javax.persistence.Table;
 @Table(name="MEMBER")
 public class MemberBean implements Serializable {
 
-    private long id;
+    private Long id;
     private String firstName;
     private String lastName;
     private String handle;
@@ -23,21 +23,21 @@ public class MemberBean implements Serializable {
     }
 
     public MemberBean(String firstName, String lastName, String handle, String email) {
-	super();
-	this.firstName = firstName;
-	this.lastName = lastName;
-	this.handle = handle;
-	this.email = email;
+		super();
+		this.firstName = firstName;
+		this.lastName = lastName;
+		this.handle = handle;
+		this.email = email;
     }
 
     @Id
     @GeneratedValue
     @Column(name="ID")
-    public long getId() {
+    public Long getId() {
     	return id;
     }
 
-    public void setId(long id) {
+    public void setId(Long id) {
     	this.id = id;
     }
 
