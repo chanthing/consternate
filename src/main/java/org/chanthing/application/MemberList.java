@@ -10,8 +10,6 @@ import javax.xml.bind.annotation.*;
 import com.fasterxml.jackson.databind.annotation.JsonSerialize;
 
 @JsonSerialize(contentAs=MemberBean.class)
-@XmlRootElement(name = "List")
-@XmlSeeAlso(MemberBean.class)
 public class MemberList extends ArrayList<MemberBean> implements Serializable
 {
 
