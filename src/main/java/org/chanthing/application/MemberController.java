@@ -13,13 +13,12 @@ import org.springframework.web.bind.annotation.PathVariable;;
 @Controller
 public class MemberController {
 
-	private Repository<MemberBean> memberRepo = new Repository<MemberBean>("org.chanthing.application.MemberBean", "MEMBER");
+	private MemberRepository memberRepo = new MemberRepository();
 
-	@RequestMapping(method=RequestMethod.GET, value="/member", produces={"application/json;charset=UTF-8"})
+	@RequestMapping(method=RequestMethod.GET, value="/member")
 	@ResponseBody
-	public List getAllMembers() {
-		List<MemberBean> list = memberRepo.getAllItems();
-		return list;
+	public MemberList getAllMembers() {
+		return  memberRepo.getAllItems();
 	}
 
     @RequestMapping(method=RequestMethod.GET, value="/member/{id}")
@@ -40,6 +39,14 @@ public class MemberController {
 		Long id = null;
 		id = memberRepo.addItem(member);
 		member.setId(id);
+		return member;
+	}
+
+	@RequestMapping(method=RequestMethod.PUT, value="/member/{id}") 
+	@ResponseBody
+	public MemberBean updateMember(@PathVariable Long id, MemberBean member) {
+		member.setId(id);
+		memberRepo.updateItem(member);
 		return member;
 	}
 	

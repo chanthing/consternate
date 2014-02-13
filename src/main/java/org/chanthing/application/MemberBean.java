@@ -6,11 +6,13 @@ import javax.persistence.Entity;
 import javax.persistence.GeneratedValue;
 import javax.persistence.Id;
 import javax.persistence.Table;
+import javax.xml.bind.annotation.XmlRootElement;
 
 
 
 @Entity
 @Table(name="MEMBER")
+@XmlRootElement
 public class MemberBean implements Serializable {
 
     private Long id;
